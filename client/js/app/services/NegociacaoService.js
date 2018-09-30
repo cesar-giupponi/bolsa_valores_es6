@@ -93,7 +93,7 @@ class NegociacaoService {
             )
             .catch(erro => {
                 console.log(erro)
-                throw new Error('Não foi possível obter as negociaçõesp para importar')
+                throw new Error('Não foi possível obter as negociações para importar')
             });
     }
 }
