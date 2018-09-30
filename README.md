@@ -1,4 +1,4 @@
-# bolsa_valores_es6
+# Bolsa de Valores com Ecmascript 6
 Simple stock exchange application written in javascript.
 
 In the application you can create a new negotiation, import negotiations from a server and delete negotiations.
