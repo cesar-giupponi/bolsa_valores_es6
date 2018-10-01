@@ -1,3 +1,12 @@
+import { ListaNegociacoes } from '../models/ListaNegociacoes';
+import { Mensagem } from '../models/Mensagem';
+import { NegociacoesView } from '../views/NegociacoesView';
+import { MensagemView } from '../views/MensagemView';
+import { NegociacaoService } from '../services/NegociacaoService';
+import { DateHelper } from '../helpers/DateHelper';
+import { Bind } from '../helpers/Bind';
+import { Negociacao } from '../models/Negociacao';
+
 class NegociacaoController {
 
     constructor() {
@@ -5,8 +14,9 @@ class NegociacaoController {
         this._inputData = $('#data');
         this._inputQuantidade = $('#quantidade');
         this._inputValor = $('#valor');
-        this._listaNegociacoes = new Bind(new ListaNegociacoes(), new NegociacoesView($('#negociacoesView')), 'adiciona', 'esvazia');
+        this._listaNegociacoes = new Bind(new ListaNegociacoes(), new NegociacoesView($('#negociacoesView')), 'adiciona', 'esvazia', 'ordena', 'inverteOrdem');
         this._mensagem = new Bind(new Mensagem(), new MensagemView($('#mensagemView')), 'texto');
+        this._ordemAtual = '';
         this._negociacaoService = new NegociacaoService();
         this._init();
     }
@@ -75,4 +85,18 @@ class NegociacaoController {
             .catch(erro => this._mensagem.texto = erro);
     }
 
+    ordena(coluna) {
+        if (this._ordemAtual == coluna) {
+            this._listaNegociacoes.inverteOrdem();
+        } else {
+            this._listaNegociacoes.ordena((p, s) => p[coluna] - s[coluna]);
+        }
+        this._ordemAtual = coluna;
+    }
+
+}
+
+let negociacaoController = new NegociacaoController();
+export function currentInstance() {
+    return negociacaoController;
 }

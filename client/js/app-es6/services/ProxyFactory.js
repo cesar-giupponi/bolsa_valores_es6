@@ -1,9 +1,9 @@
-class ProxyFactory {
+export class ProxyFactory {
 
     static create(objeto, propriedades, acao) {
         return new Proxy(objeto, {
             get(target, property, receiver) {
-                if (propriedades.includes(property) && ProxyFactory._ehFuncao(target[property]) ) {
+                if (propriedades.includes(property) && ProxyFactory._ehFuncao(target[property])) {
                     return function () {
                         Reflect.apply(target[property], target, arguments);
                         return acao(target);
@@ -12,8 +12,8 @@ class ProxyFactory {
                 return Reflect.get(target, property, receiver);
             },
 
-            set(target, property, value, receiver){
-                if(propriedades.includes(property)){
+            set(target, property, value, receiver) {
+                if (propriedades.includes(property)) {
                     target[property] = value;
                     acao(target);
                 }
@@ -22,7 +22,7 @@ class ProxyFactory {
         });
     }
 
-    static _ehFuncao(funcao){
+    static _ehFuncao(funcao) {
         return typeof (funcao) == typeof (Function)
     }
 }
